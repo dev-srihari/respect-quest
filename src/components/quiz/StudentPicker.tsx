@@ -43,7 +43,21 @@ export function StudentPicker({
 
   const randomize = useCallback(() => {
     if (students.length === 0 || rolling) return;
-    const result = pickStudent(students, selection);
+    const retrySelection = selected
+      ? {
+          ...selection,
+          selectedGirls:
+            selected.gender === "girl"
+              ? selection.selectedGirls.filter((id) => id !== selected.id)
+              : selection.selectedGirls,
+          selectedBoys:
+            selected.gender === "boy"
+              ? selection.selectedBoys.filter((id) => id !== selected.id)
+              : selection.selectedBoys,
+          nextGender: selected.gender,
+        }
+      : selection;
+    const result = pickStudent(students, retrySelection);
     if (!result) return;
 
     setRolling(true);
@@ -69,7 +83,7 @@ export function StudentPicker({
         onSelected(result.student, result.selection);
       }, total + 120),
     );
-  }, [students, selection, rolling, soundOn, onSelected]);
+  }, [students, selection, rolling, selected, soundOn, onSelected]);
 
   useEffect(() => {
     registerRandomize(randomize);
@@ -148,7 +162,7 @@ export function StudentPicker({
           onClick={randomize}
           className="display-title border-primary/40 bg-primary/10 text-primary hover:bg-primary/20"
         >
-          Randomize
+          {selected ? "Choose another" : "Randomize"}
         </Button>
         <Button
           size="lg"

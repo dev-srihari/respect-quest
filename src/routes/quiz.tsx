@@ -39,6 +39,8 @@ function QuizPage() {
   const [phase, setPhase] = useState<Phase>("picking");
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
+  const [girlScore, setGirlScore] = useState(0);
+  const [boyScore, setBoyScore] = useState(0);
   const [answered, setAnswered] = useState(0);
   const [answer, setAnswer] = useState<number | null>(null);
   const [current, setCurrent] = useState<Student | null>(null);
@@ -66,7 +68,11 @@ function QuizPage() {
       setAnswer(choice);
       setAnswered((n) => n + 1);
       const correct = choice === question.correct;
-      if (correct) setScore((s) => s + 1);
+      if (correct) {
+        setScore((s) => s + 1);
+        if (current?.gender === "girl") setGirlScore((s) => s + 1);
+        if (current?.gender === "boy") setBoyScore((s) => s + 1);
+      }
       playTone(correct ? "correct" : "wrong", roster.soundOn);
     },
     [answer, question, roster.soundOn],
@@ -89,6 +95,8 @@ function QuizPage() {
     setPhase("picking");
     setIndex(0);
     setScore(0);
+    setGirlScore(0);
+    setBoyScore(0);
     setAnswered(0);
     setAnswer(null);
     setCurrent(null);
@@ -207,6 +215,16 @@ function QuizPage() {
               <p className="glow-text text-6xl font-black text-primary sm:text-8xl">
                 {score} / {QUESTIONS.length}
               </p>
+              <div className="mx-auto mt-8 grid max-w-sm grid-cols-2 gap-3 text-left">
+                <div className="glass rounded-2xl px-4 py-3">
+                  <p className="display-title text-xs text-muted-foreground">Girls</p>
+                  <p className="mt-1 text-2xl font-bold text-primary">{girlScore}</p>
+                </div>
+                <div className="glass rounded-2xl px-4 py-3">
+                  <p className="display-title text-xs text-muted-foreground">Boys</p>
+                  <p className="mt-1 text-2xl font-bold text-primary">{boyScore}</p>
+                </div>
+              </div>
               <p className="mt-8 text-lg italic sm:text-xl">
                 &ldquo;Respect isn&apos;t just something we say.
                 <br />

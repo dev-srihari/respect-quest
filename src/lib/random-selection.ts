@@ -9,8 +9,10 @@ export interface PickResult {
 
 const other = (g: Gender): Gender => (g === "girl" ? "boy" : "girl");
 
-const usedFor = (state: SelectionState, g: Gender) =>
-  g === "girl" ? state.selectedGirls : state.selectedBoys;
+const activeUsedIds = (roster: Student[], used: number[]) => {
+  const ids = new Set(roster.map((student) => student.id));
+  return used.filter((id) => ids.has(id));
+};
 
 /**
  * Picks a random student of the requested gender, alternating girl → boy → girl…
@@ -20,12 +22,16 @@ const usedFor = (state: SelectionState, g: Gender) =>
 export function pickStudent(students: Student[], state: SelectionState): PickResult | null {
   if (students.length === 0) return null;
 
+  const girls = students.filter((student) => student.gender === "girl");
+  const boys = students.filter((student) => student.gender === "boy");
+  const selectedGirls = activeUsedIds(girls, state.selectedGirls);
+  const selectedBoys = activeUsedIds(boys, state.selectedBoys);
   let gender = state.nextGender;
-  if (!students.some((s) => s.gender === gender)) gender = other(gender);
+  if (!students.some((student) => student.gender === gender)) gender = other(gender);
   const roster = students.filter((s) => s.gender === gender);
   if (roster.length === 0) return null;
 
-  let used = usedFor(state, gender);
+  let used = gender === "girl" ? selectedGirls : selectedBoys;
   let pool = roster.filter((s) => !used.includes(s.id));
   let poolReset = false;
 
@@ -40,8 +46,8 @@ export function pickStudent(students: Student[], state: SelectionState): PickRes
   const nextUsed = [...used, student.id];
 
   const selection: SelectionState = {
-    selectedGirls: gender === "girl" ? nextUsed : state.selectedGirls,
-    selectedBoys: gender === "boy" ? nextUsed : state.selectedBoys,
+    selectedGirls: gender === "girl" ? nextUsed : selectedGirls,
+    selectedBoys: gender === "boy" ? nextUsed : selectedBoys,
     nextGender: other(gender),
   };
 
