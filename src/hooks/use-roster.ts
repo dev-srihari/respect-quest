@@ -1,27 +1,30 @@
 import { useCallback, useEffect, useState } from "react";
 import {
-  clearSelectedIds,
+  clearSelection,
   DEFAULT_STUDENTS,
-  loadSelectedIds,
+  EMPTY_SELECTION,
+  loadSelection,
   loadSound,
   loadStudents,
   nextId,
-  saveSelectedIds,
+  saveSelection,
   saveSound,
   saveStudents,
+  type Gender,
+  type SelectionState,
   type Student,
 } from "@/lib/quiz-storage";
 
 /** Roster + selection history, hydrated from localStorage after mount (SSR safe). */
 export function useRoster() {
   const [students, setStudents] = useState<Student[]>([]);
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [selection, setSelection] = useState<SelectionState>({ ...EMPTY_SELECTION });
   const [soundOn, setSoundOn] = useState(true);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
     setStudents(loadStudents());
-    setSelectedIds(loadSelectedIds());
+    setSelection(loadSelection());
     setSoundOn(loadSound());
     setReady(true);
   }, []);
@@ -32,10 +35,10 @@ export function useRoster() {
   }, []);
 
   const addStudent = useCallback(
-    (name: string) => {
+    (name: string, gender: Gender) => {
       const clean = name.trim();
       if (!clean) return false;
-      commit([...students, { id: nextId(students), name: clean }]);
+      commit([...students, { id: nextId(students), name: clean, gender }]);
       return true;
     },
     [students, commit],
@@ -51,28 +54,39 @@ export function useRoster() {
     [students, commit],
   );
 
+  const setGender = useCallback(
+    (id: number, gender: Gender) => {
+      commit(students.map((s) => (s.id === id ? { ...s, gender } : s)));
+    },
+    [students, commit],
+  );
+
   const removeStudent = useCallback(
     (id: number) => {
       commit(students.filter((s) => s.id !== id));
-      const nextSelected = selectedIds.filter((sid) => sid !== id);
-      setSelectedIds(nextSelected);
-      saveSelectedIds(nextSelected);
+      const next: SelectionState = {
+        ...selection,
+        selectedGirls: selection.selectedGirls.filter((sid) => sid !== id),
+        selectedBoys: selection.selectedBoys.filter((sid) => sid !== id),
+      };
+      setSelection(next);
+      saveSelection(next);
     },
-    [students, selectedIds, commit],
+    [students, selection, commit],
   );
 
   const restoreDefaults = useCallback(() => {
     commit([...DEFAULT_STUDENTS]);
   }, [commit]);
 
-  const updateSelected = useCallback((ids: number[]) => {
-    setSelectedIds(ids);
-    saveSelectedIds(ids);
+  const updateSelection = useCallback((next: SelectionState) => {
+    setSelection(next);
+    saveSelection(next);
   }, []);
 
   const resetSelected = useCallback(() => {
-    setSelectedIds([]);
-    clearSelectedIds();
+    setSelection({ ...EMPTY_SELECTION });
+    clearSelection();
   }, []);
 
   const toggleSound = useCallback(() => {
@@ -84,14 +98,15 @@ export function useRoster() {
 
   return {
     students,
-    selectedIds,
+    selection,
     soundOn,
     ready,
     addStudent,
     renameStudent,
+    setGender,
     removeStudent,
     restoreDefaults,
-    updateSelected,
+    updateSelection,
     resetSelected,
     toggleSound,
   };

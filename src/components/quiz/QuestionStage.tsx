@@ -56,8 +56,8 @@ export function QuestionStage({
           return (
             <motion.button
               key={option}
-              whileHover={answered ? undefined : { scale: 1.02 }}
-              whileTap={answered ? undefined : { scale: 0.98 }}
+              whileHover={answered ? {} : { scale: 1.02 }}
+              whileTap={answered ? {} : { scale: 0.98 }}
               disabled={answered}
               onClick={() => onAnswer(i)}
               className={cn(

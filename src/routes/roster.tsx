@@ -50,6 +50,7 @@ function RosterPage() {
               students={roster.students}
               onAdd={roster.addStudent}
               onRename={roster.renameStudent}
+              onGenderChange={roster.setGender}
               onRemove={roster.removeStudent}
               onRestoreDefaults={roster.restoreDefaults}
             />

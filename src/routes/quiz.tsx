@@ -10,7 +10,7 @@ import { RosterManager } from "@/components/quiz/RosterManager";
 import { QUESTIONS } from "@/data/questions";
 import { useRoster } from "@/hooks/use-roster";
 import { playTone } from "@/lib/sound";
-import type { Student } from "@/lib/quiz-storage";
+import type { SelectionState, Student } from "@/lib/quiz-storage";
 
 export const Route = createFileRoute("/quiz")({
   head: () => ({
@@ -53,9 +53,9 @@ function QuizPage() {
   }, []);
 
   const handleSelected = useCallback(
-    (student: Student, ids: number[]) => {
+    (student: Student, selection: SelectionState) => {
       setCurrent(student);
-      roster.updateSelected(ids);
+      roster.updateSelection(selection);
     },
     [roster],
   );
@@ -175,7 +175,7 @@ function QuizPage() {
             <motion.div key="pick" exit={{ opacity: 0, scale: 0.97 }} className="w-full">
               <StudentPicker
                 students={roster.students}
-                selectedIds={roster.selectedIds}
+                selection={roster.selection}
                 soundOn={roster.soundOn}
                 selected={current}
                 onSelected={handleSelected}
@@ -260,7 +260,8 @@ function QuizPage() {
               <div>
                 <p className="display-title text-[10px] text-muted-foreground">Selected</p>
                 <p className="text-lg font-semibold">
-                  {roster.selectedIds.length} / {roster.students.length}
+                  {roster.selection.selectedGirls.length + roster.selection.selectedBoys.length} /{" "}
+                  {roster.students.length}
                 </p>
               </div>
             </div>
@@ -285,6 +286,7 @@ function QuizPage() {
               students={roster.students}
               onAdd={roster.addStudent}
               onRename={roster.renameStudent}
+              onGenderChange={roster.setGender}
               onRemove={roster.removeStudent}
               onRestoreDefaults={roster.restoreDefaults}
             />
