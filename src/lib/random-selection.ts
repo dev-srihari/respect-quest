@@ -36,6 +36,7 @@ export function pickStudent(students: Student[], state: SelectionState): PickRes
   }
 
   const student = pool[Math.floor(Math.random() * pool.length)];
+  if (!student) return null;
   const nextUsed = [...used, student.id];
 
   const selection: SelectionState = {
