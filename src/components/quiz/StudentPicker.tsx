@@ -2,23 +2,23 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { Student } from "@/lib/quiz-storage";
+import type { SelectionState, Student } from "@/lib/quiz-storage";
 import { pickStudent, shuffleNames } from "@/lib/random-selection";
 import { playTone } from "@/lib/sound";
 
 interface Props {
   students: Student[];
-  selectedIds: number[];
+  selection: SelectionState;
   soundOn: boolean;
   selected: Student | null;
-  onSelected: (student: Student, selectedIds: number[]) => void;
+  onSelected: (student: Student, selection: SelectionState) => void;
   onContinue: () => void;
   registerRandomize: (fn: (() => void) | null) => void;
 }
 
 export function StudentPicker({
   students,
-  selectedIds,
+  selection,
   soundOn,
   selected,
   onSelected,
@@ -34,13 +34,20 @@ export function StudentPicker({
     timers.current = [];
   };
 
+  const hasGender = (g: "girl" | "boy") => students.some((s) => s.gender === g);
+  const upcoming = hasGender(selection.nextGender)
+    ? selection.nextGender
+    : selection.nextGender === "girl"
+      ? "boy"
+      : "girl";
+
   const randomize = useCallback(() => {
     if (students.length === 0 || rolling) return;
-    const result = pickStudent(students, selectedIds);
+    const result = pickStudent(students, selection);
     if (!result) return;
 
     setRolling(true);
-    const names = shuffleNames(students, 14);
+    const names = shuffleNames(students, 14, result.student.gender);
     clearTimers();
     names.forEach((name, i) => {
       timers.current.push(
@@ -59,10 +66,10 @@ export function StudentPicker({
         setRolling(false);
         setTicker("");
         playTone("select", soundOn);
-        onSelected(result.student, result.selectedIds);
+        onSelected(result.student, result.selection);
       }, total + 120),
     );
-  }, [students, selectedIds, rolling, soundOn, onSelected]);
+  }, [students, selection, rolling, soundOn, onSelected]);
 
   useEffect(() => {
     registerRandomize(randomize);
@@ -71,6 +78,9 @@ export function StudentPicker({
 
   useEffect(() => clearTimers, []);
 
+  const girls = students.filter((s) => s.gender === "girl");
+  const boys = students.filter((s) => s.gender === "boy");
+
   return (
     <div className="flex flex-col items-center gap-8 text-center">
       <motion.p
@@ -78,8 +88,14 @@ export function StudentPicker({
         animate={{ opacity: 1, y: 0 }}
         className="display-title text-sm text-primary/80 sm:text-base"
       >
-        Who&apos;s up?
+        Who&apos;s next?
       </motion.p>
+
+      {students.length > 0 && !selected && (
+        <span className="display-title rounded-full border border-primary/40 bg-primary/10 px-4 py-1 text-xs text-primary">
+          Up next: {upcoming === "girl" ? "Girl" : "Boy"}
+        </span>
+      )}
 
       <div className="glass flex min-h-40 w-full max-w-2xl items-center justify-center rounded-3xl px-6 py-10">
         <AnimatePresence mode="wait">
@@ -102,7 +118,9 @@ export function StudentPicker({
               className="space-y-3"
             >
               <Target className="mx-auto size-8 text-accent" aria-hidden />
-              <p className="display-title text-xs text-muted-foreground">Student selected</p>
+              <p className="display-title text-xs text-muted-foreground">
+                {selected.gender === "girl" ? "Girl" : "Boy"} selected
+              </p>
               <p className="glow-text text-4xl font-bold text-primary sm:text-6xl">
                 {selected.name}
               </p>
@@ -142,7 +160,8 @@ export function StudentPicker({
         </Button>
       </div>
       <p className="text-xs text-muted-foreground">
-        {selectedIds.length} / {students.length} students called this round
+        Girls called {selection.selectedGirls.length} / {girls.length} · Boys called{" "}
+        {selection.selectedBoys.length} / {boys.length}
       </p>
     </div>
   );
