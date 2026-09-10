@@ -215,16 +215,6 @@ function QuizPage() {
               <p className="glow-text text-6xl font-black text-primary sm:text-8xl">
                 {score} / {QUESTIONS.length}
               </p>
-              <div className="mx-auto mt-8 grid max-w-sm grid-cols-2 gap-3 text-left">
-                <div className="glass rounded-2xl px-4 py-3">
-                  <p className="display-title text-xs text-muted-foreground">Girls</p>
-                  <p className="mt-1 text-2xl font-bold text-primary">{girlScore}</p>
-                </div>
-                <div className="glass rounded-2xl px-4 py-3">
-                  <p className="display-title text-xs text-muted-foreground">Boys</p>
-                  <p className="mt-1 text-2xl font-bold text-primary">{boyScore}</p>
-                </div>
-              </div>
               <p className="mt-8 text-lg italic sm:text-xl">
                 &ldquo;Respect isn&apos;t just something we say.
                 <br />

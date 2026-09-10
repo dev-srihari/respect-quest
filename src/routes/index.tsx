@@ -69,7 +69,7 @@ function Home() {
 
         <div className="mt-12 space-y-2">
           <p className="display-title text-xs text-muted-foreground">Presented by</p>
-          <p className="text-lg font-semibold tracking-wide">Sri Hari • Pooja • Avani</p>
+          <p className="text-lg font-semibold tracking-wide">Sri Hari • Pooja • Aavani</p>
         </div>
       </motion.div>
     </main>

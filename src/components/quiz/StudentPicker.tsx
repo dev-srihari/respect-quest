@@ -105,12 +105,6 @@ export function StudentPicker({
         Who&apos;s next?
       </motion.p>
 
-      {students.length > 0 && !selected && (
-        <span className="display-title rounded-full border border-primary/40 bg-primary/10 px-4 py-1 text-xs text-primary">
-          Up next: {upcoming === "girl" ? "Girl" : "Boy"}
-        </span>
-      )}
-
       <div className="glass flex min-h-40 w-full max-w-2xl items-center justify-center rounded-3xl px-6 py-10">
         <AnimatePresence mode="wait">
           {rolling ? (
@@ -173,10 +167,6 @@ export function StudentPicker({
           Show question
         </Button>
       </div>
-      <p className="text-xs text-muted-foreground">
-        Girls called {selection.selectedGirls.length} / {girls.length} · Boys called{" "}
-        {selection.selectedBoys.length} / {boys.length}
-      </p>
     </div>
   );
 }

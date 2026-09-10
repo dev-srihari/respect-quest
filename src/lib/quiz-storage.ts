@@ -20,7 +20,7 @@ export const SOUND_KEY = "respect_quiz_sound";
 const DEFAULT_NAMES: Array<[string, Gender]> = [
   ["Pooja", "girl"],
   ["Arjun", "boy"],
-  ["Avani", "girl"],
+  ["Aavani", "girl"],
   ["Rahul", "boy"],
   ["Anu", "girl"],
   ["Sri Hari", "boy"],

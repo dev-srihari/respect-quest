@@ -9,7 +9,7 @@ CHAPTER:
 Chapter 3 — Respecting Parents and Others
 
 PRESENTERS:
-Sri Hari • Pooja • Avani
+Sri Hari • Pooja • Aavani
 
 This website will be opened from our PowerPoint presentation during a live classroom seminar. It should feel like a polished, futuristic classroom game — NOT like a normal boring quiz website.
 
@@ -105,7 +105,7 @@ INTERACTIVE QUIZ
 
 Presented by:
 
-Sri Hari • Pooja • Avani
+Sri Hari • Pooja • Aavani
 
 Large button:
 
@@ -393,7 +393,7 @@ Buttons:
 
 Also show:
 
-Sri Hari • Pooja • Avani
+Sri Hari • Pooja • Aavani
 
 12. PRESENTER CONTROL
 
