@@ -115,7 +115,11 @@ const numbers = (value: unknown): number[] =>
 export function loadSelection(): SelectionState {
   const value = safeRead(SELECTED_KEY);
   if (!value || typeof value !== "object") return { ...EMPTY_SELECTION };
-  const rec = value as Record<string, unknown>;
+  const rec = value as {
+    selectedGirls?: unknown;
+    selectedBoys?: unknown;
+    nextGender?: unknown;
+  };
   return {
     selectedGirls: numbers(rec.selectedGirls),
     selectedBoys: numbers(rec.selectedBoys),
