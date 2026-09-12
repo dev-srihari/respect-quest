@@ -139,6 +139,66 @@ export const QUESTIONS: Question[] = [
     explanation:
       "Gratitude is repaid with presence and care — spending time with parents and looking after them as they once looked after us.",
   },
+  {
+    id: 11,
+    question: "What is the most respectful way to disagree with an elder?",
+    options: [
+      "Interrupt them loudly",
+      "Stay silent and remain upset",
+      "Listen first, then share your view calmly",
+      "Walk away while they are speaking",
+    ],
+    correct: 2,
+    explanation: "Respectful disagreement begins with listening and continues with calm, thoughtful words.",
+  },
+  {
+    id: 12,
+    question: "How can we show respect when someone else is speaking?",
+    options: [
+      "Prepare our reply without listening",
+      "Give them our attention and wait for our turn",
+      "Check our phone quietly",
+      "Speak to someone beside us",
+    ],
+    correct: 1,
+    explanation: "Giving someone our full attention shows that their thoughts and feelings matter.",
+  },
+  {
+    id: 13,
+    question: "Why is gratitude an important part of respect?",
+    options: [
+      "It helps us notice and value what others do for us",
+      "It makes people give us more things",
+      "It means we never need to help others",
+      "It is useful only on special occasions",
+    ],
+    correct: 0,
+    explanation: "Gratitude helps us recognise the care, effort and kindness that others give us.",
+  },
+  {
+    id: 14,
+    question: "Which action best shows respect for a classmate?",
+    options: [
+      "Laughing when they make a mistake",
+      "Only speaking to them when you need help",
+      "Including them and listening to their ideas",
+      "Comparing their marks with yours",
+    ],
+    correct: 2,
+    explanation: "Respect means including others and treating their ideas and feelings as valuable.",
+  },
+  {
+    id: 15,
+    question: "What turns respect from a value into a habit?",
+    options: [
+      "Showing it only when adults are watching",
+      "Practising it through small actions every day",
+      "Talking about it without changing our actions",
+      "Waiting for others to show respect first",
+    ],
+    correct: 1,
+    explanation: "Small, consistent actions make respect part of how we live and treat everyone.",
+  },
 ];
 
 export const OPTION_LABELS = ["A", "B", "C", "D"] as const;

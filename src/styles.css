@@ -33,25 +33,25 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
-  --font-display: "Orbitron", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
-  --radius: 0.9rem;
-  --background: oklch(0.16 0.03 250);
+  --radius: 0.65rem;
+  --background: oklch(0.1 0.025 270);
   --foreground: oklch(0.96 0.01 240);
-  --card: oklch(0.22 0.035 255 / 55%);
+  --card: oklch(0.2 0.04 265 / 58%);
   --card-foreground: oklch(0.96 0.01 240);
   --popover: oklch(0.2 0.035 255);
   --popover-foreground: oklch(0.96 0.01 240);
-  --primary: oklch(0.82 0.16 190);
+  --primary: oklch(0.84 0.16 195);
   --primary-foreground: oklch(0.16 0.04 250);
   --secondary: oklch(0.3 0.05 265);
   --secondary-foreground: oklch(0.95 0.01 240);
   --muted: oklch(0.28 0.04 260);
   --muted-foreground: oklch(0.72 0.03 250);
-  --accent: oklch(0.7 0.19 320);
+  --accent: oklch(0.67 0.22 305);
   --accent-foreground: oklch(0.16 0.04 250);
   --destructive: oklch(0.65 0.22 20);
   --destructive-foreground: oklch(0.98 0.01 240);
@@ -60,7 +60,7 @@
   --border: oklch(0.72 0.09 210 / 22%);
   --input: oklch(0.72 0.09 210 / 25%);
   --ring: oklch(0.82 0.16 190);
-  --glow-primary: 0 0 40px oklch(0.82 0.16 190 / 35%);
+  --glow-primary: 0 0 38px oklch(0.84 0.16 195 / 32%);
   --glow-accent: 0 0 40px oklch(0.7 0.19 320 / 30%);
 }
 
@@ -73,10 +73,7 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    background-image:
-      radial-gradient(circle at 12% 8%, oklch(0.5 0.15 200 / 22%), transparent 45%),
-      radial-gradient(circle at 88% 12%, oklch(0.5 0.18 320 / 18%), transparent 45%),
-      radial-gradient(circle at 50% 110%, oklch(0.5 0.14 250 / 25%), transparent 55%);
+    background-image: linear-gradient(145deg, oklch(0.1 0.025 270), oklch(0.13 0.035 255));
     background-attachment: fixed;
     min-height: 100vh;
   }
@@ -97,6 +94,134 @@
   }
 }
 
+@utility quiz-shell {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  overflow: hidden;
+}
+
+.quiz-atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.quiz-grid {
+  position: absolute;
+  inset: 35% -20% -30%;
+  background-image:
+    linear-gradient(oklch(0.84 0.16 195 / 10%) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.84 0.16 195 / 10%) 1px, transparent 1px);
+  background-size: 72px 72px;
+  transform: perspective(520px) rotateX(58deg);
+  transform-origin: center top;
+  animation: grid-drift 14s linear infinite;
+  mask-image: linear-gradient(to bottom, transparent, black 30%, transparent 92%);
+}
+
+.light-beam {
+  position: absolute;
+  width: 42vw;
+  height: 85vh;
+  top: -25%;
+  filter: blur(70px);
+  opacity: 0.12;
+  transform: rotate(22deg);
+}
+.light-beam-left { left: -18%; background: var(--color-primary); }
+.light-beam-right { right: -18%; background: var(--color-accent); transform: rotate(-22deg); }
+
+.quiz-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  box-shadow: 0 0 12px var(--color-primary);
+}
+
+.ai-guide {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--color-muted-foreground);
+  font-size: 0.78rem;
+}
+
+.ai-orb {
+  display: inline-grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: 999px;
+  color: var(--color-primary);
+  border: 1px solid color-mix(in oklab, var(--color-primary) 45%, transparent);
+  background: color-mix(in oklab, var(--color-primary) 10%, transparent);
+  box-shadow: 0 0 24px color-mix(in oklab, var(--color-primary) 24%, transparent);
+  animation: orb-pulse 2.8s ease-in-out infinite;
+}
+
+.quiz-panel {
+  background: linear-gradient(145deg, oklch(0.22 0.045 260 / 62%), oklch(0.14 0.025 270 / 78%));
+  backdrop-filter: blur(18px);
+  border: 1px solid color-mix(in oklab, var(--color-primary) 20%, transparent);
+  box-shadow: 0 24px 80px oklch(0.04 0.02 270 / 65%), inset 0 1px oklch(1 0 0 / 7%);
+}
+
+.quiz-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.answer-tile {
+  min-height: 5.25rem;
+  background: color-mix(in oklab, var(--color-card) 78%, transparent);
+  border: 1px solid color-mix(in oklab, var(--color-primary) 18%, transparent);
+  box-shadow: inset 0 1px oklch(1 0 0 / 5%);
+}
+
+.answer-tile:hover:not(:disabled) {
+  border-color: color-mix(in oklab, var(--color-primary) 65%, transparent);
+  box-shadow: 0 10px 35px color-mix(in oklab, var(--color-primary) 12%, transparent);
+}
+
+.scanner-ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  width: min(72vw, 22rem);
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--color-primary) 45%, transparent);
+  background: radial-gradient(circle, color-mix(in oklab, var(--color-primary) 13%, transparent), transparent 66%);
+  box-shadow: inset 0 0 55px color-mix(in oklab, var(--color-primary) 12%, transparent), var(--glow-primary);
+}
+
+.scanner-ring::before,
+.scanner-ring::after {
+  content: "";
+  position: absolute;
+  border-radius: inherit;
+  border: 1px dashed color-mix(in oklab, var(--color-primary) 35%, transparent);
+  animation: ring-spin 12s linear infinite;
+}
+.scanner-ring::before { inset: 7%; }
+.scanner-ring::after { inset: 18%; border-color: color-mix(in oklab, var(--color-accent) 40%, transparent); animation-direction: reverse; animation-duration: 8s; }
+
+.confetti-burst { position: absolute; inset: 50%; pointer-events: none; }
+.confetti-burst span { position: absolute; width: 7px; height: 7px; border-radius: 2px; background: var(--color-primary); }
+.confetti-burst span:nth-child(3n) { background: var(--color-accent); }
+.confetti-burst span:nth-child(3n + 1) { background: var(--color-success); }
+
+@keyframes ring-spin { to { transform: rotate(360deg); } }
+@keyframes orb-pulse { 50% { transform: scale(1.08); box-shadow: 0 0 34px color-mix(in oklab, var(--color-accent) 32%, transparent); } }
+@keyframes grid-drift { to { background-position: 0 72px; } }
+
 @utility glass {
   background: linear-gradient(
     145deg,
@@ -116,6 +241,14 @@
 
 @utility display-title {
   font-family: var(--font-display);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

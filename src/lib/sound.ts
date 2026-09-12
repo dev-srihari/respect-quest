@@ -20,18 +20,19 @@ export function playTone(tone: Tone, enabled: boolean) {
     ctx ??= new AudioCtor();
     if (ctx.state === "suspended") void ctx.resume();
 
+    const activeContext = ctx;
     const { freq, duration } = TONES[tone];
     const step = duration / freq.length;
     freq.forEach((f, i) => {
-      const osc = ctx!.createOscillator();
-      const gain = ctx!.createGain();
+      const osc = activeContext.createOscillator();
+      const gain = activeContext.createGain();
       osc.type = "sine";
       osc.frequency.value = f;
-      const start = ctx!.currentTime + i * step;
+      const start = activeContext.currentTime + i * step;
       gain.gain.setValueAtTime(0.0001, start);
       gain.gain.exponentialRampToValueAtTime(0.06, start + 0.01);
       gain.gain.exponentialRampToValueAtTime(0.0001, start + step);
-      osc.connect(gain).connect(ctx!.destination);
+      osc.connect(gain).connect(activeContext.destination);
       osc.start(start);
       osc.stop(start + step + 0.02);
     });
