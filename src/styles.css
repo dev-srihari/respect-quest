@@ -39,19 +39,19 @@
 
 :root {
   --radius: 0.65rem;
-  --background: oklch(0.1 0.025 270);
+  --background: #050816;
   --foreground: oklch(0.96 0.01 240);
-  --card: oklch(0.2 0.04 265 / 58%);
+  --card: #10192f;
   --card-foreground: oklch(0.96 0.01 240);
-  --popover: oklch(0.2 0.035 255);
+  --popover: #10192f;
   --popover-foreground: oklch(0.96 0.01 240);
   --primary: oklch(0.84 0.16 195);
   --primary-foreground: oklch(0.16 0.04 250);
-  --secondary: oklch(0.3 0.05 265);
+  --secondary: #10192f;
   --secondary-foreground: oklch(0.95 0.01 240);
-  --muted: oklch(0.28 0.04 260);
+  --muted: #10192f;
   --muted-foreground: oklch(0.72 0.03 250);
-  --accent: oklch(0.67 0.22 305);
+  --accent: #a879ff;
   --accent-foreground: oklch(0.16 0.04 250);
   --destructive: oklch(0.65 0.22 20);
   --destructive-foreground: oklch(0.98 0.01 240);
@@ -73,7 +73,7 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    background-image: linear-gradient(145deg, oklch(0.1 0.025 270), oklch(0.13 0.035 255));
+    background-image: radial-gradient(circle at 50% -10%, #10192f 0%, transparent 48%), linear-gradient(145deg, #050816, #081122 60%, #050816);
     background-attachment: fixed;
     min-height: 100vh;
   }
@@ -109,6 +109,43 @@
   pointer-events: none;
 }
 
+.quiz-dashboard-atmosphere {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 45%, color-mix(in oklab, var(--color-primary) 8%, transparent), transparent 38%);
+}
+
+.quiz-side-panel {
+  position: fixed;
+  top: 50%;
+  z-index: 2;
+  display: none;
+  width: 9rem;
+  gap: 0.35rem;
+  padding: 1rem;
+  transform: translateY(-50%);
+  flex-direction: column;
+  border: 1px solid color-mix(in oklab, var(--color-primary) 18%, transparent);
+  background: color-mix(in oklab, var(--color-card) 48%, transparent);
+  backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px oklch(1 0 0 / 5%);
+}
+
+.quiz-side-panel strong {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 0.04em;
+  color: var(--color-primary);
+}
+
+.quiz-side-panel-left { left: 1.5rem; border-radius: 0 1rem 1rem 0; border-left: 0; }
+.quiz-side-panel-right { right: 1.5rem; border-radius: 1rem 0 0 1rem; border-right: 0; }
+
+@media (min-width: 1100px) {
+  .quiz-side-panel { display: flex; }
+}
+
 .quiz-grid {
   position: absolute;
   inset: 35% -20% -30%;
@@ -133,6 +170,15 @@
 }
 .light-beam-left { left: -18%; background: var(--color-primary); }
 .light-beam-right { right: -18%; background: var(--color-accent); transform: rotate(-22deg); }
+
+.scan-sweep {
+  position: absolute;
+  inset: -20% 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--color-primary) 60%, transparent), transparent);
+  box-shadow: 0 0 28px 8px color-mix(in oklab, var(--color-primary) 15%, transparent);
+  animation: sweep 8s ease-in-out infinite;
+}
 
 .quiz-particle {
   position: absolute;
@@ -213,6 +259,38 @@
 .scanner-ring::before { inset: 7%; }
 .scanner-ring::after { inset: 18%; border-color: color-mix(in oklab, var(--color-accent) 40%, transparent); animation-direction: reverse; animation-duration: 8s; }
 
+.scanner-stage {
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 55px color-mix(in oklab, var(--color-primary) 8%, transparent), var(--glow-primary);
+}
+
+.scanner-stage::before {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border: 1px dashed color-mix(in oklab, var(--color-primary) 28%, transparent);
+  border-radius: 999px;
+  animation: ring-spin 18s linear infinite;
+}
+
+.question-card {
+  position: relative;
+  overflow: hidden;
+  border-color: color-mix(in oklab, var(--color-primary) 36%, transparent);
+  box-shadow: 0 0 42px color-mix(in oklab, var(--color-primary) 10%, transparent), inset 0 1px 0 oklch(1 0 0 / 8%);
+}
+
+.question-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 25%, oklch(1 0 0 / 7%) 48%, transparent 67%);
+  transform: translateX(-100%);
+  animation: reflection 7s ease-in-out infinite;
+}
+
 .confetti-burst { position: absolute; inset: 50%; pointer-events: none; }
 .confetti-burst span { position: absolute; width: 7px; height: 7px; border-radius: 2px; background: var(--color-primary); }
 .confetti-burst span:nth-child(3n) { background: var(--color-accent); }
@@ -221,6 +299,8 @@
 @keyframes ring-spin { to { transform: rotate(360deg); } }
 @keyframes orb-pulse { 50% { transform: scale(1.08); box-shadow: 0 0 34px color-mix(in oklab, var(--color-accent) 32%, transparent); } }
 @keyframes grid-drift { to { background-position: 0 72px; } }
+@keyframes sweep { 0%, 100% { transform: translateY(0); opacity: 0; } 15%, 75% { opacity: 1; } 90% { transform: translateY(120vh); opacity: 0; } }
+@keyframes reflection { 0%, 35% { transform: translateX(-100%); } 70%, 100% { transform: translateX(100%); } }
 
 @utility glass {
   background: linear-gradient(

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Target } from "lucide-react";
+import { CircleCheck, RotateCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { SelectionState, Student } from "@/lib/quiz-storage";
 import { pickStudent, shuffleNames } from "@/lib/random-selection";
@@ -96,16 +96,16 @@ export function StudentPicker({
   const boys = students.filter((s) => s.gender === "boy");
 
   return (
-    <div className="flex flex-col items-center gap-8 text-center">
+    <div className="picker-layout flex flex-col items-center gap-8 text-center">
       <motion.p
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         className="display-title text-sm text-primary/80 sm:text-base"
       >
-        Who&apos;s next?
+        Who&apos;s answering?
       </motion.p>
 
-      <div className="glass flex min-h-40 w-full max-w-2xl items-center justify-center rounded-3xl px-6 py-10">
+      <div className="scanner-stage glass flex min-h-48 w-full max-w-2xl items-center justify-center rounded-3xl px-6 py-10">
         <AnimatePresence mode="wait">
           {rolling ? (
             <motion.span
@@ -125,9 +125,9 @@ export function StudentPicker({
               animate={{ opacity: 1, scale: 1 }}
               className="space-y-3"
             >
-              <Target className="mx-auto size-8 text-accent" aria-hidden />
+              <CircleCheck className="mx-auto size-8 text-primary" aria-hidden />
               <p className="display-title text-xs text-muted-foreground">
-                {selected.gender === "girl" ? "Girl" : "Boy"} selected
+                Your question is ready
               </p>
               <p className="glow-text text-4xl font-bold text-primary sm:text-6xl">
                 {selected.name}
@@ -140,9 +140,7 @@ export function StudentPicker({
               animate={{ opacity: 1 }}
               className="text-xl text-muted-foreground"
             >
-              {students.length === 0
-                ? "Add students before starting the quiz."
-                : "Press Randomize to choose a student"}
+              {students.length === 0 ? "Add students before starting the quiz." : "Choose a student to answer"}
             </motion.p>
           )}
         </AnimatePresence>
@@ -156,7 +154,7 @@ export function StudentPicker({
           onClick={randomize}
           className="display-title border-primary/40 bg-primary/10 text-primary hover:bg-primary/20"
         >
-          {selected ? "Choose another" : "Randomize"}
+          <RotateCw /> {selected ? "Choose another" : "Choose student"}
         </Button>
         <Button
           size="lg"
@@ -164,7 +162,7 @@ export function StudentPicker({
           onClick={onContinue}
           className="display-title bg-primary text-primary-foreground hover:bg-primary/90"
         >
-          Show question
+          Continue to question
         </Button>
       </div>
     </div>

@@ -2,203 +2,154 @@ export interface Question {
   id: number;
   question: string;
   options: [string, string, string, string];
-  /** index 0-3 of the correct option */
+  /** Correct option index after the options have been shuffled for the quiz. */
   correct: number;
+  /** Teacher note: the canonical correct answer before options are shuffled. */
+  correctAnswer: string;
   explanation: string;
 }
 
 export const QUESTIONS: Question[] = [
   {
     id: 1,
-    question: "What makes the love that parents give their children special?",
-    options: [
-      "It is given only when children do well",
-      "It is unconditional and expects nothing in return",
-      "It is given in exchange for obedience",
-      "It lasts only while children are small",
-    ],
+    question: "Who was there for us before our friends and school?",
+    options: ["Neighbours", "Parents", "Teachers", "Classmates"],
     correct: 1,
-    explanation:
-      "Parents love their children unconditionally — they give care, time and sacrifice without expecting anything back.",
+    correctAnswer: "Parents",
+    explanation: "Parents care for us from the very beginning, before we meet our friends or start school.",
   },
   {
     id: 2,
-    question: "Why do parents sometimes correct or discipline their children?",
-    options: [
-      "Because they enjoy being strict",
-      "Because they want to control everything",
-      "Because they care and want their children to grow the right way",
-      "Because other parents expect it",
-    ],
+    question: "Parents sometimes say 'No' because...",
+    options: ["They dislike us", "They want to punish us", "They may be protecting or guiding us", "They are always angry"],
     correct: 2,
-    explanation:
-      "Discipline comes from love. Correction is how parents guide children away from harm and towards good habits.",
+    correctAnswer: "They may be protecting or guiding us",
+    explanation: "A parent's refusal can be an act of care that protects us or guides us toward a better choice.",
   },
   {
     id: 3,
-    question: "In the gardener analogy, parents are compared to a gardener because they:",
-    options: [
-      "Decide exactly what shape every plant must take forever",
-      "Water, protect and nurture a young plant so it can grow strong",
-      "Keep the plant indoors so nothing can touch it",
-      "Sell the plant once it has grown",
-    ],
+    question: "What does the gardener's example teach us?",
+    options: ["Plants grow without care", "Pruning helps growth", "Cutting means hatred", "Plants don't need attention"],
     correct: 1,
-    explanation:
-      "Like a gardener nurturing a sapling, parents feed, protect and patiently support a child until they can stand on their own.",
+    correctAnswer: "Pruning helps growth",
+    explanation: "Like pruning helps a plant grow well, thoughtful correction can help children develop good habits.",
   },
   {
     id: 4,
-    question: "How did Rama respond when King Dasharatha's promise sent him to the forest?",
-    options: [
-      "He argued against the decision",
-      "He accepted it willingly out of respect for his father's word",
-      "He asked the ministers to overturn it",
-      "He left the kingdom in anger",
-    ],
-    correct: 1,
-    explanation:
-      "Rama obeyed his father without complaint, showing that honouring a parent's word can matter more than personal comfort.",
+    question: "How many years did Rama spend in exile?",
+    options: ["7", "10", "14", "20"],
+    correct: 2,
+    correctAnswer: "14",
+    explanation: "Rama spent fourteen years in exile, accepting the difficult decision with respect for his father's promise.",
   },
   {
     id: 5,
-    question: "Which of these best shows respect for parents in daily life?",
-    options: [
-      "Listening to them patiently and helping with work at home",
-      "Obeying only when you want something",
-      "Ignoring their advice because times have changed",
-      "Speaking politely only in front of guests",
-    ],
-    correct: 0,
-    explanation:
-      "Respect is shown through everyday actions — listening, helping and speaking kindly, not just on special occasions.",
+    question: "Teachers are described as taking the place of whom in school?",
+    options: ["Friends", "Parents", "Neighbours", "Coaches"],
+    correct: 1,
+    correctAnswer: "Parents",
+    explanation: "Teachers guide, correct and care for our growth in school, much like parents do at home.",
   },
   {
     id: 6,
-    question: "Why are teachers said to take the place of parents?",
-    options: [
-      "They give students pocket money",
-      "They guide, correct and shape students just as parents do",
-      "They live with the students",
-      "They are related to the students",
-    ],
+    question: "Who helped Helen Keller learn and communicate?",
+    options: ["Mother", "Anne Sullivan", "Mark Zuckerberg", "Rama"],
     correct: 1,
-    explanation:
-      "Teachers guide, correct and care for students' growth, so they deserve the same respect we give our parents.",
+    correctAnswer: "Anne Sullivan",
+    explanation: "Anne Sullivan patiently taught Helen Keller to communicate and learn.",
   },
   {
     id: 7,
-    question: "What did Anne Sullivan do for Helen Keller?",
-    options: [
-      "She cured her blindness and deafness",
-      "She taught her patiently to communicate and learn",
-      "She wrote all of Helen's books for her",
-      "She sent her to a special hospital",
-    ],
+    question: "Which is a traditional way of showing respect in India?",
+    options: ["Ignoring elders", "Namaste", "Walking away", "Arguing"],
     correct: 1,
-    explanation:
-      "With great patience, Anne Sullivan taught Helen Keller to communicate — proof of how a devoted teacher can transform a life.",
+    correctAnswer: "Namaste",
+    explanation: "Namaste is a familiar and respectful greeting that shows humility and regard for others.",
   },
   {
     id: 8,
-    question: "Which is a traditional Indian way of showing respect to elders?",
-    options: [
-      "Waving from a distance",
-      "Touching their feet and seeking their blessings",
-      "Calling them by their first name",
-      "Shaking hands firmly",
-    ],
-    correct: 1,
-    explanation:
-      "Touching the feet of elders and seeking their blessings is a long-standing way of expressing humility and respect.",
+    question: "Why did Ganesha win the competition?",
+    options: ["He ran faster", "He flew higher", "He circled his parents", "He cheated"],
+    correct: 2,
+    correctAnswer: "He circled his parents",
+    explanation: "Ganesha said his parents were his whole world, so circling them was like circling the world.",
   },
   {
     id: 9,
-    question:
-      "In the story of the contest, how did Ganesha win by going around his parents?",
-    options: [
-      "He travelled around the world faster than Kartikeya",
-      "He circled his parents, saying they were his whole world",
-      "He refused to take part in the contest",
-      "He asked his parents to declare him the winner",
-    ],
-    correct: 1,
-    explanation:
-      "Ganesha circled Shiva and Parvati, showing that for him his parents were the entire world — devotion valued above speed.",
+    question: "According to the chapter, caring for parents in old age is...",
+    options: ["A punishment", "A burden", "A way of expressing gratitude", "Optional"],
+    correct: 2,
+    correctAnswer: "A way of expressing gratitude",
+    explanation: "Caring for parents as they grow older is one way to repay the care and love they gave us.",
   },
   {
     id: 10,
-    question: "What is the best way to show gratitude to parents as they grow older?",
-    options: [
-      "Send them expensive gifts occasionally",
-      "Care for them with time, attention and kindness",
-      "Leave their care entirely to others",
-      "Remember them only on festivals",
-    ],
+    question: "Which of these is one of the four action words?",
+    options: ["Ignore", "Appreciate", "Complain", "Demand"],
     correct: 1,
-    explanation:
-      "Gratitude is repaid with presence and care — spending time with parents and looking after them as they once looked after us.",
+    correctAnswer: "Appreciate",
+    explanation: "Appreciating others means noticing and valuing their care, effort and kindness.",
   },
   {
     id: 11,
-    question: "What is the most respectful way to disagree with an elder?",
-    options: [
-      "Interrupt them loudly",
-      "Stay silent and remain upset",
-      "Listen first, then share your view calmly",
-      "Walk away while they are speaking",
-    ],
-    correct: 2,
-    explanation: "Respectful disagreement begins with listening and continues with calm, thoughtful words.",
+    question: "Listening to elders shows...",
+    options: ["Fear", "Respect", "Weakness", "Laziness"],
+    correct: 1,
+    correctAnswer: "Respect",
+    explanation: "Listening patiently shows that we value the experience and thoughts of elders.",
   },
   {
     id: 12,
-    question: "How can we show respect when someone else is speaking?",
-    options: [
-      "Prepare our reply without listening",
-      "Give them our attention and wait for our turn",
-      "Check our phone quietly",
-      "Speak to someone beside us",
-    ],
-    correct: 1,
-    explanation: "Giving someone our full attention shows that their thoughts and feelings matter.",
+    question: "Parents' love is described as...",
+    options: ["Conditional", "Temporary", "Unconditional", "Rare"],
+    correct: 2,
+    correctAnswer: "Unconditional",
+    explanation: "Parents' love is given freely and is not dependent on children being perfect or successful.",
   },
   {
     id: 13,
-    question: "Why is gratitude an important part of respect?",
-    options: [
-      "It helps us notice and value what others do for us",
-      "It makes people give us more things",
-      "It means we never need to help others",
-      "It is useful only on special occasions",
-    ],
-    correct: 0,
-    explanation: "Gratitude helps us recognise the care, effort and kindness that others give us.",
+    question: "What does a teacher do besides teaching subjects?",
+    options: ["Only gives homework", "Inspires and guides students", "Only gives marks", "Only conducts exams"],
+    correct: 1,
+    correctAnswer: "Inspires and guides students",
+    explanation: "A teacher supports students' character and growth by inspiring, guiding and encouraging them.",
   },
   {
     id: 14,
-    question: "Which action best shows respect for a classmate?",
-    options: [
-      "Laughing when they make a mistake",
-      "Only speaking to them when you need help",
-      "Including them and listening to their ideas",
-      "Comparing their marks with yours",
-    ],
-    correct: 2,
-    explanation: "Respect means including others and treating their ideas and feelings as valuable.",
+    question: "Helping at home is an example of...",
+    options: ["Respect through action", "Avoiding work", "Competition", "Punishment"],
+    correct: 0,
+    correctAnswer: "Respect through action",
+    explanation: "Helping with everyday responsibilities shows respect through something we do, not just something we say.",
   },
   {
     id: 15,
-    question: "What turns respect from a value into a habit?",
-    options: [
-      "Showing it only when adults are watching",
-      "Practising it through small actions every day",
-      "Talking about it without changing our actions",
-      "Waiting for others to show respect first",
-    ],
+    question: "What is the main message of Chapter 3?",
+    options: ["Success is everything", "Respect should be shown through actions toward parents, teachers and elders.", "Friends are more important than family.", "Rules are more important than kindness."],
     correct: 1,
-    explanation: "Small, consistent actions make respect part of how we live and treat everyone.",
+    correctAnswer: "Respect should be shown through actions toward parents, teachers and elders.",
+    explanation: "Respect becomes meaningful when we show it through kind, grateful and responsible actions.",
   },
 ];
+
+export function shuffleQuestions(questions: Question[]): Question[] {
+  return questions.map((question) => {
+    const entries = question.options.map((text, index) => ({
+      text,
+      isCorrect: index === question.correct,
+    }));
+
+    for (let index = entries.length - 1; index > 0; index -= 1) {
+      const swapIndex = Math.floor(Math.random() * (index + 1));
+      [entries[index], entries[swapIndex]] = [entries[swapIndex], entries[index]];
+    }
+
+    return {
+      ...question,
+      options: entries.map(({ text }) => text) as Question["options"],
+      correct: entries.findIndex(({ isCorrect }) => isCorrect),
+    };
+  });
+}
 
 export const OPTION_LABELS = ["A", "B", "C", "D"] as const;

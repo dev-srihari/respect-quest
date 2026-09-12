@@ -34,7 +34,7 @@ export function QuestionStage({
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="w-full max-w-4xl space-y-6"
+      className="question-stage w-full max-w-4xl space-y-6"
     >
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="display-title text-xs text-primary/80">
@@ -42,12 +42,15 @@ export function QuestionStage({
         </p>
         {studentName && (
           <p className="text-sm text-muted-foreground">
-            Answering: <span className="font-semibold text-foreground">{studentName}</span>
+            Who&apos;s answering: <span className="font-semibold text-primary">{studentName}</span>
           </p>
         )}
       </div>
 
-      <h2 className="text-2xl leading-snug font-semibold sm:text-4xl">{question.question}</h2>
+      <div className="question-card glass rounded-3xl p-6 sm:p-9">
+        <p className="quiz-label mb-4 text-xs text-primary/70">Question</p>
+        <h2 className="text-2xl leading-snug font-semibold sm:text-4xl">{question.question}</h2>
+      </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
         {question.options.map((option, i) => {
@@ -61,7 +64,7 @@ export function QuestionStage({
               disabled={answered}
               onClick={() => onAnswer(i)}
               className={cn(
-                "glass flex items-start gap-4 rounded-2xl px-5 py-4 text-left transition-colors",
+                "answer-tile glass flex items-start gap-4 rounded-2xl px-5 py-4 text-left transition-colors",
                 !answered && "hover:border-primary/60",
                 answered && correctChoice && "border-success/70 bg-success/15",
                 answered && chosen && !correctChoice && "border-destructive/70 bg-destructive/15",
@@ -91,8 +94,9 @@ export function QuestionStage({
               )}
             >
               {isCorrect ? <Check className="size-5" /> : <X className="size-5" />}
-              {isCorrect ? "Correct" : "Not quite"}
+              {isCorrect ? "Correct!" : "Not quite"}
             </p>
+            {!isCorrect && <p className="text-sm font-semibold text-foreground">Correct answer: {question.options[question.correct]}</p>}
             <p className="text-sm text-muted-foreground sm:text-base">{question.explanation}</p>
             <Button
               onClick={onNext}

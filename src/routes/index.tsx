@@ -29,19 +29,20 @@ export const Route = createFileRoute("/")({
 function Home() {
   const [loading, setLoading] = useState(true);
   const [step, setStep] = useState(0);
-  const loadingSteps = ["Preparing quiz...", "Loading questions...", "Preparing student selection...", "Quiz ready."];
+  const loadingSteps = [
+    "Preparing quiz...",
+    "Loading questions...",
+    "Preparing student selection...",
+    "Quiz ready.",
+    "Quiz ready.",
+  ];
+  const loadingProgress = [0, 20, 47, 82, 100];
 
   useEffect(() => {
-    const seen = window.sessionStorage.getItem("respect_quiz_intro");
-    if (seen) {
-      setLoading(false);
-      return;
-    }
-    const timers = loadingSteps.map((_, index) => window.setTimeout(() => setStep(index), index * 520));
-    timers.push(window.setTimeout(() => {
-      window.sessionStorage.setItem("respect_quiz_intro", "true");
-      setLoading(false);
-    }, 2300));
+    const timers = loadingProgress.map((_, index) =>
+      window.setTimeout(() => setStep(index), index * 440),
+    );
+    timers.push(window.setTimeout(() => setLoading(false), 2520));
     return () => timers.forEach(window.clearTimeout);
   }, []);
 
@@ -50,11 +51,12 @@ function Home() {
       <QuizAtmosphere />
       <AnimatePresence mode="wait">
         {loading ? (
-          <motion.div key="loading" exit={{ opacity: 0, scale: 1.08 }} className="text-center">
+          <motion.div key="loading" exit={{ opacity: 0, scale: 1.08 }} className="intro-screen text-center">
             <div className="scanner-ring mx-auto w-44 sm:w-52">
-              <span className="display-title text-3xl font-bold text-primary">{Math.min((step + 1) * 25, 100)}%</span>
+              <span className="display-title text-3xl font-bold text-primary">{loadingProgress[step]}%</span>
             </div>
-            <motion.p key={step} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="quiz-label mt-8 text-sm text-muted-foreground">
+            <p className="quiz-label mt-8 text-xs text-primary/70">Preparing your quiz</p>
+            <motion.p key={step} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="quiz-label mt-3 text-sm text-muted-foreground">
               {loadingSteps[step]}
             </motion.p>
           </motion.div>
@@ -68,7 +70,7 @@ function Home() {
 
             <div className="mx-auto mt-9 h-px max-w-xl bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
             <p className="quiz-label mt-6 text-[11px] text-muted-foreground">Presented by</p>
-            <p className="mt-2 font-semibold text-foreground">Sri Hari <span className="text-primary">•</span> Pooja <span className="text-accent">•</span> Avani</p>
+            <p className="mt-2 font-semibold text-foreground">Sri Hari <span className="text-primary">•</span> Pooja <span className="text-accent">•</span> Aavani</p>
 
             <div className="mx-auto mt-10 flex max-w-md flex-col gap-3">
               <Button asChild size="lg" className="group h-16 text-base sm:text-lg">

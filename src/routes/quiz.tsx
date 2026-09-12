@@ -7,7 +7,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { StudentPicker } from "@/components/quiz/StudentPicker";
 import { QuestionStage } from "@/components/quiz/QuestionStage";
 import { RosterManager } from "@/components/quiz/RosterManager";
-import { QUESTIONS } from "@/data/questions";
+import { QUESTIONS, shuffleQuestions } from "@/data/questions";
 import { useRoster } from "@/hooks/use-roster";
 import { playTone } from "@/lib/sound";
 import type { SelectionState, Student } from "@/lib/quiz-storage";
@@ -19,12 +19,12 @@ export const Route = createFileRoute("/quiz")({
       {
         name: "description",
         content:
-          "Ten questions on respecting parents, teachers and elders, with random student selection for a live classroom seminar.",
+          "Fifteen questions on respecting parents, teachers and elders, with random student selection for a live classroom quiz.",
       },
       { property: "og:title", content: "Live Quiz — RESPECT Chapter 3" },
       {
         property: "og:description",
-        content: "Ten questions on respecting parents, teachers and elders for a live class.",
+        content: "Fifteen questions on respecting parents, teachers and elders for a live class.",
       },
     ],
   }),
@@ -44,11 +44,12 @@ function QuizPage() {
   const [answered, setAnswered] = useState(0);
   const [answer, setAnswer] = useState<number | null>(null);
   const [current, setCurrent] = useState<Student | null>(null);
+  const [quizQuestions, setQuizQuestions] = useState(QUESTIONS);
   const [panelOpen, setPanelOpen] = useState(false);
   const randomizeRef = useRef<(() => void) | null>(null);
 
-  const question = QUESTIONS[index];
-  const isLast = index === QUESTIONS.length - 1;
+  const question = quizQuestions[index];
+  const isLast = index === quizQuestions.length - 1;
 
   const registerRandomize = useCallback((fn: (() => void) | null) => {
     randomizeRef.current = fn;
@@ -100,13 +101,17 @@ function QuizPage() {
     setAnswered(0);
     setAnswer(null);
     setCurrent(null);
+    setQuizQuestions(shuffleQuestions(QUESTIONS));
     roster.resetSelected();
     playTone("start", roster.soundOn);
   }, [roster]);
 
   // Fresh session on entering the quiz
   useEffect(() => {
-    if (roster.ready) roster.resetSelected();
+    if (roster.ready) {
+      roster.resetSelected();
+      setQuizQuestions(shuffleQuestions(QUESTIONS));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roster.ready]);
 
@@ -136,10 +141,20 @@ function QuizPage() {
   }, [phase, answer, current, panelOpen, handleAnswer, handleNext]);
 
   return (
-    <main className="grid-backdrop flex min-h-screen flex-col px-5 py-6">
+    <main className="quiz-shell grid-backdrop flex min-h-screen flex-col px-5 py-6">
+      <div className="quiz-dashboard-atmosphere" aria-hidden />
+      <div className="quiz-side-panel quiz-side-panel-left" aria-label="Quiz progress">
+        <span className="quiz-label text-[10px] text-muted-foreground">Questions remaining</span>
+        <strong>{Math.max(QUESTIONS.length - index, 0).toString().padStart(2, "0")}</strong>
+        <span className="text-xs text-muted-foreground">of {QUESTIONS.length}</span>
+      </div>
+      <div className="quiz-side-panel quiz-side-panel-right" aria-label="Quiz status">
+        <span className="quiz-label text-[10px] text-muted-foreground">AI status</span>
+        <strong className="text-success">Ready</strong>
+      </div>
       <header className="mx-auto flex w-full max-w-5xl items-center justify-between gap-3">
         <Link to="/" className="display-title text-sm text-primary/80">
-          Respect · Ch 3
+          Respect · Chapter 3
         </Link>
         <div className="flex items-center gap-4">
           <span className="display-title text-xs text-muted-foreground sm:text-sm">
@@ -210,7 +225,7 @@ function QuizPage() {
               animate={{ opacity: 1, scale: 1 }}
               className="glass w-full max-w-2xl rounded-4xl px-8 py-14 text-center"
             >
-              <p className="display-title text-sm text-primary/80">Quiz complete</p>
+              <p className="display-title text-sm text-primary/80">Quiz complete!</p>
               <p className="display-title mt-6 text-xs text-muted-foreground">Your score</p>
               <p className="glow-text text-6xl font-black text-primary sm:text-8xl">
                 {score} / {QUESTIONS.length}
@@ -230,12 +245,12 @@ function QuizPage() {
                     variant="outline"
                     className="display-title border-primary/40 bg-transparent"
                   >
-                    Home
+                    Back to home
                   </Button>
                 </Link>
               </div>
               <p className="mt-10 text-sm font-semibold tracking-wide text-muted-foreground">
-                Sri Hari • Pooja • Avani
+                Sri Hari • Pooja • Aavani
               </p>
             </motion.div>
           )}

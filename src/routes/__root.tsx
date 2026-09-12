@@ -79,7 +79,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "RESPECT — Interactive Quiz" },
       { name: "description", content: "A futuristic classroom quiz about respecting parents and others." },
-      { name: "author", content: "Sri Hari, Pooja and Avani" },
+      { name: "author", content: "Sri Hari, Pooja and Aavani" },
       { property: "og:title", content: "RESPECT — Interactive Quiz" },
       { property: "og:description", content: "A futuristic classroom quiz about respecting parents and others." },
       { property: "og:type", content: "website" },

@@ -15,6 +15,7 @@ export function QuizAtmosphere() {
       <div className="quiz-grid" />
       <div className="light-beam light-beam-left" />
       <div className="light-beam light-beam-right" />
+      <div className="scan-sweep" />
       {PARTICLES.map((particle) => (
         <motion.span
           key={particle.id}
