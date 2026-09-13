@@ -64,7 +64,7 @@ export const DEFAULT_STUDENTS: Student[] = DEFAULT_NAMES.map(([name, gender], i)
 export const EMPTY_SELECTION: SelectionState = {
   selectedGirls: [],
   selectedBoys: [],
-  nextGender: "girl",
+  nextGender: "boy",
 };
 
 const hasStorage = () => typeof window !== "undefined" && !!window.localStorage;

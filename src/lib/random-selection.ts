@@ -7,7 +7,7 @@ export interface PickResult {
   poolReset: boolean;
 }
 
-const other = (g: Gender): Gender => (g === "girl" ? "boy" : "girl");
+const other = (g: Gender): Gender => (g === "boy" ? "girl" : "boy");
 
 const activeUsedIds = (roster: Student[], used: number[]) => {
   const ids = new Set(roster.map((student) => student.id));
@@ -31,7 +31,7 @@ export function pickStudent(students: Student[], state: SelectionState): PickRes
   const roster = students.filter((s) => s.gender === gender);
   if (roster.length === 0) return null;
 
-  let used = gender === "girl" ? selectedGirls : selectedBoys;
+  let used = gender === "girl" ? selectedBoys : selectedGirls;
   let pool = roster.filter((s) => !used.includes(s.id));
   let poolReset = false;
 
